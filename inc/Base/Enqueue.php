@@ -18,7 +18,7 @@ function enqueue() {
       }
   function enqueue_admin() {
         // enqueue all our scripts
-        wp_enqueue_style('StarterKitAdminStyle', $this->plugin_url .'/assets/admin/starterkit.css');
-        wp_enqueue_script('StarterKitAdminScript', $this->plugin_url .'/assets/admin/starterkit.js');
+        wp_enqueue_style('StarterKitAdminStyle', $this->plugin_url .'assets/admin/starterkit.css');
+        wp_enqueue_script('StarterKitAdminScript', $this->plugin_url .'assets/admin/starterkit.js');
       }
 }

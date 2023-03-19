@@ -1,0 +1,1 @@
+<h1>Starter kit for WP plugin development CPT</h1>
