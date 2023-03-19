@@ -3,41 +3,34 @@
 namespace Inc\Pages;
 
 use \Inc\Base\BaseController;
+use \Inc\Api\SettingsApi;
 /**
 *
 */
 class Admin extends BaseController
 {
 
+	public $settings;
+	public $pages = [];
+	public function __construct() {
+		$this->settings = new SettingsApi();
+		$this->pages = [
+			[
+				'page_title' => __( 'Starter kit','starter-kit' ),
+				'menu_title' => __( 'Starter kit','starter-kit' ),
+				'capability' => 'manage_options',
+				'menu_slug' => 'starter-kit',
+				'callback' => function(){echo "<h1> Starkit </h1>";},
+				'icon_url' => 'dashicons-store',
+				'position' => 110
+			]
+		];;
+	}
 
 	public function register() {
-		add_action( 'admin_menu' , [$this, 'add_admin_pages'] );
+
+		$this->settings->addPages( $this->pages )->register();
 	}
-	// Display the admin options page
-  function admin_index() {
-    // require index
-    require_once $this->plugin_path . 'templates/admin.php';
-  }
 
-	public function add_admin_pages() {
-		// Add a new top-level menu (ill-advised):
-		add_menu_page(
-			__( 'Starter kit','starter-kit' ),
-			__( 'Starter kit','starter-kit' ),
-			'manage_options',
-			'starter-kit',
-			[ $this , 'admin_index' ],
-			'dashicons-store',
-			110);
 
-	// Add a submenu to the custom top-level menu:
-	/* add_submenu_page(
-			'hello-world',
-			__('Settings','hello-world'),
-			__('Settings','hello-world'),
-			'manage_options',
-			'hello-world',
-			[$this,'admin_index'],
-			'dashicons-store',
-			110); */ }
 }
