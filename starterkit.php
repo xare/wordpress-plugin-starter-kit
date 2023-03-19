@@ -18,7 +18,7 @@ if( file_exists( dirname( __FILE__).'/vendor/autoload.php' ) ){
  *
  * @return void
  */
-function ativate_starterkit(){
+function activate_starterkit(){
   Inc\Base\Activate::activate();
 }
 register_activation_hook( __FILE__, 'activate_starterkit');
