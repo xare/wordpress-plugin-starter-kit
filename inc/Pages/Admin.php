@@ -10,7 +10,7 @@ class Admin
 
 
 	public function register() {
-		add_action('admin_menu', [$this, 'add_admin_pages']);
+		add_action( 'admin_menu' , [$this, 'add_admin_pages'] );
 	}
 	// Display the admin options page
   function admin_index() {
@@ -21,11 +21,11 @@ class Admin
 	public function add_admin_pages() {
 		// Add a new top-level menu (ill-advised):
 		add_menu_page(
-			__('Starter kit','starter-kit'),
-			__('Starter kit','starter-kit'),
+			__( 'Starter kit','starter-kit' ),
+			__( 'Starter kit','starter-kit' ),
 			'manage_options',
 			'starter-kit',
-			[$this,'admin_index'],
+			[ $this , 'admin_index' ],
 			'dashicons-store',
 			110);
 
