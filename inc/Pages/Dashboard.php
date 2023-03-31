@@ -5,50 +5,55 @@ namespace Inc\Pages;
 use Inc\Api\SettingsApi;
 use Inc\Base\BaseController;
 use Inc\Api\Callbacks\AdminCallbacks;
+use Inc\Api\Callbacks\ManagerCallbacks;
+
 /**
 *
 */
-class Admin extends BaseController
+class Dashboard extends BaseController
 {
 
 	public $settings;
 	public $pages = [];
-	public $subpages = [];
+	//public $subpages = [];
 	public $callbacks;
+	public $callbacks_mngr;
 
 
 	public function register() {
 		$this->settings = new SettingsApi();
 		$this->callbacks = new AdminCallbacks();
+		$this->callbacks_mngr = new ManagerCallbacks();
 		$this->setPages();
-		$this->setSubpages();
+		//$this->setSubpages();
 		$this->setSettings();
 		$this->setSections();
 		$this->setFields();
 		$this->settings
 			->addPages( $this->pages )
 			->withSubPage( 'Dashboard' )
-			->addSubPages( $this->subpages )
+			//->addSubPages( $this->subpages )
 			->register();
 	}
 
 	public function setPages(){
 		$this->pages = [
 			[
-				'page_title' => __('Starter kit','starter-kit'),
-				'menu_title' =>  __('Starter kit','starter-kit'),
+				'page_title' => __('Starter kit','starterkit'),
+				'menu_title' =>  __('Starter kit','starterkit'),
 				'capability' => 'manage_options',
-				'menu_slug' => 'starter-kit',
+				'menu_slug' => 'starterkit',
 				'callback' => [$this->callbacks, 'adminDashboard'] ,
 				'icon_url' => 'dashicons-store',
 				'position' => 110
 			]
 		];
 	}
-	public function setSubpages(){
+
+	/* public function setSubpages(){
 		$this->subpages = [
 			[
-				'parent_slug' => 'starter-kit',
+				'parent_slug' => 'starterkit',
 				'page_title' => 'Custom Post Types',
 				'menu_title' => 'CPT',
 				'capability' => 'manage_options',
@@ -56,7 +61,7 @@ class Admin extends BaseController
 				'callback' => [$this->callbacks, 'adminCPT'] ,
 			],
 			[
-				'parent_slug' => 'starter-kit',
+				'parent_slug' => 'starterkit',
 				'page_title' => 'Custom Taxonomies',
 				'menu_title' => 'Taxonomies',
 				'capability' => 'manage_options',
@@ -64,7 +69,7 @@ class Admin extends BaseController
 				'callback' => [$this->callbacks, 'adminTaxonomy'] ,
 			],
 			[
-				'parent_slug' => 'starter-kit',
+				'parent_slug' => 'starterkit',
 				'page_title' => 'Custom Widgets',
 				'menu_title' => 'Widgets',
 				'capability' => 'manage_options',
@@ -72,21 +77,18 @@ class Admin extends BaseController
 				'callback' => [$this->callbacks, 'adminWidgets'] ,
 			]
 		];
-	}
+	} */
 
 	public function setSettings()
 	{
 		$args = [
 			[
-				'option_group'=> 'starterkit_options_group',
-				'option_name' => 'text_example',
-				'callback' => [$this->callbacks, 'starkerkitOptionsGroup']
-			],
-			[
-				'option_group'=> 'starterkit_options_group',
-				'option_name' => 'first_name',
-				]
+				'option_group'=> 'starterkit_settings',
+				'option_name' => 'starterkit',
+				'callback' => [$this->callbacks_mngr, 'checkboxSanitize']
+      ]
 		];
+
 		$this->settings->setSettings( $args );
 	}
 
@@ -95,9 +97,9 @@ class Admin extends BaseController
 		$args = [
 			[
 				'id'=> 'starterkit_admin_index',
-				'title' => 'Settings',
-				'callback' => [$this->callbacks, 'starkerkitAdminSection'],
-				'page' => 'starterkit-plugin' //From menu_slug
+				'title' => 'Settings Manager',
+				'callback' => [$this->callbacks_mngr , 'adminSectionManager'],
+				'page' => 'starterkit' //From menu_slug
 				]
 		];
 		$this->settings->setSections( $args );
@@ -105,30 +107,21 @@ class Admin extends BaseController
 
 	public function setFields()
 	{
-		$args = [
-			[
-				'id'=> 'text_example',
-				'title' => 'Text Example',
-				'callback' => [$this->callbacks, 'starkerkitTextExample'],
-				'page' => 'starterkit-plugin', //From menu_slug
-				'section' => 'starterkit_admin_index',
-				'args' => [
-						'label_for' => 'text_example',
-						'class' => 'example-class'
-					]
-				],
-				[
-					'id'=> 'first_name',
-					'title' => 'First Name',
-					'callback' => [$this->callbacks, 'starkerkitFirstName'],
-					'page' => 'starterkit-plugin', //From menu_slug
+		$args = [];
+    foreach($this->managers as $key => $value) {
+      $args[] = [
+					'id'=> $key,
+					'title' => $value,
+					'callback' => [$this->callbacks_mngr, 'checkboxField'],
+					'page' => 'starterkit', //From menu_slug
 					'section' => 'starterkit_admin_index',
 					'args' => [
-							'label_for' => 'text_example',
-							'class' => 'example-class'
+							'option_name' => 'starterkit',
+							'label_for' => $key,
+							'class' => 'ui-toggle'
 						]
-					]
-		];
+      ];
+    }
 		$this->settings->setFields( $args );
 	}
 

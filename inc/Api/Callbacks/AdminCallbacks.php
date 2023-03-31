@@ -12,14 +12,32 @@ use Inc\Base\BaseController;
   public function adminDashboard() {
     return require_once("$this->plugin_path/templates/adminDashboard.php");
   }
-  public function adminCPT() {
-    return require_once("$this->plugin_path/templates/adminCPT.php");
+  public function adminCustomPostType() {
+    return require_once("$this->plugin_path/templates/adminCustomPostType.php");
   }
   public function adminWidgets(){
-    return require_once("$this->plugin_path/templates/adminWidgets.php");
+    return require_once("$this->plugin_path/templates/adminWidget.php");
   }
   public function adminTaxonomy(){
     return require_once("$this->plugin_path/templates/adminTaxonomy.php");
+  }
+  public function adminGallery(){
+    return require_once("$this->plugin_path/templates/adminGallery.php");
+  }
+  public function adminTestimonial(){
+    return require_once("$this->plugin_path/templates/adminTestimonial.php");
+  }
+  public function adminTemplates(){
+    return require_once("$this->plugin_path/templates/adminTemplates.php");
+  }
+  public function adminAuth(){
+    return require_once("$this->plugin_path/templates/adminAuth.php");
+  }
+  public function adminMembership(){
+    return require_once("$this->plugin_path/templates/adminMembership.php");
+  }
+  public function adminChat(){
+    return require_once("$this->plugin_path/templates/adminChat.php");
   }
 
   public function starterkitOptionsGroup($input) {

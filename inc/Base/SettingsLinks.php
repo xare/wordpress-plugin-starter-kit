@@ -2,11 +2,11 @@
 /**
  * @package starterkit
  */
+namespace Inc\Base;
 
- namespace Inc\Base;
-use \Inc\Base\BaseController;
- class SettinsLinks extends BaseController
- {
+use Inc\Base\BaseController;
+class SettingsLinks extends BaseController
+{
   public function register(){
     add_filter( 'plugin_action_links_'.$this->plugin, [ $this, 'settings_link' ]);
   }
